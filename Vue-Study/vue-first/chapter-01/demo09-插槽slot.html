@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<div id="vue">
+    <todo>
+        <!--v-bind:的缩写是一个冒号：-->
+        <todo-title slot="todo-title" :title="title"></todo-title>
+        <todo-items slot="todo-items" v-for="(item,index) in todoItems"
+                    v-bind:item="item" :index="index" v-on:remove="removeTodoItems(index)"></todo-items>
+    </todo>
+
+</div>
+
+
+<!--引入JS文件-->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+<script type="text/javascript">
+    // slot插槽
+    Vue.component("todo", {
+        template: '<div>\
+                        <slot name="todo-title"></slot>\
+                        <ul>\
+                            <slot name="todo-items"></slot>\
+                        </ul>\
+                    </div>'
+    });
+    Vue.component("todo-title",{
+        props:["title"],
+        template: '<div>{{title}}</div>'
+    });
+    Vue.component("todo-items",{
+        props:["item","index"],
+        // 只能绑定当前组件的方法
+        template: '<li>{{index}}---{{item}} <button @click="remove">删除</button></li>',
+        methods: {
+            remove:function (index) {
+                this.$emit("remove",index);
+            }
+        }
+    });
+    var vm = new Vue({
+        el: "#vue",
+        data: {
+            title:"秦老师列表",
+            todoItems:['狂神说Java','狂神说前端','狂神说Linux']
+        },
+        methods:{
+            removeTodoItems:function (index) {
+                console.log("删除了"+this.todoItems[index]+"OK");
+                // splice()方法向/从数组中添加/删除项目，然后返回被删除的项目，其中 index是下标
+                this.todoItems.splice(index,1); // 一次删除一个元素
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
