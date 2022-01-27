@@ -1,9 +1,0 @@
-#系统级别的配置
-spring:
-  cloud:
-    config:
-#      http://localhost:3344/master/config-client-dev.yml
-      uri: http://localhost:3344
-      name: config-client #需要从git上读取的资源名称,不要后缀
-      label: master
-      profile: dev
