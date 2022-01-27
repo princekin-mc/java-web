@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: springcloud-15-config-eureka-7001
